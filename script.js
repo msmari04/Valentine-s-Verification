@@ -7,19 +7,19 @@
 
   // ---- Config ----
   const TILES = [
-    { id: 1, type: 'valentine', emoji: '🧑' },
-    { id: 2, type: 'other', emoji: '🌳' },
-    { id: 3, type: 'valentine', emoji: '🧑' },
-    { id: 4, type: 'other', emoji: '🏠' },
-    { id: 5, type: 'valentine', emoji: '🧑' },
-    { id: 6, type: 'other', emoji: '🐶' },
-    { id: 7, type: 'valentine', emoji: '🧑' },
-    { id: 8, type: 'other', emoji: '🚗' },
-    { id: 9, type: 'valentine', emoji: '🧑' },
+    { id: 1, type: 'valentine', imgSrc: 'images/20190902_223515.jpg' },
+    { id: 2, type: 'other', imgSrc: 'images/lea.jpg' },
+    { id: 3, type: 'valentine', imgSrc: 'images/21AFF656-9B01-4090-9FF0-09FD1943BA83.JPG' },
+    { id: 4, type: 'other', imgSrc: 'images/tim.jpg' },
+    { id: 5, type: 'valentine', imgSrc: 'images/AC1FA675-ADCC-41A2-A098-8C7C48FF3000.JPG' },
+    { id: 6, type: 'other', imgSrc: 'images/peter.jpg' },
+    { id: 7, type: 'valentine', imgSrc: 'images/IMG_4132.jpg' },
+    { id: 8, type: 'other', imgSrc: 'images/max.jpg' },
+    { id: 9, type: 'valentine', imgSrc: 'images/IMG_5537.jpg' },
   ];
 
   const REJECTION_MESSAGES = [
-    "Ernsthaft?! Derek Shepherd?! 😤 Überleg dir das nochmal...",
+    "Ernsthaft?! Derek Shepherd? 😤 Überleg dir das nochmal...",
     "Hmmm... bist du sicher? Der ist doch nur im Fernsehen! 🤔💔",
     "Netter Versuch! Aber ich glaub, da gibt's eine bessere Option... 😏",
     "McDreamy? Wirklich? Schau nochmal genauer hin! 👀💕",
@@ -51,6 +51,7 @@
   const rejectionOverlay = document.getElementById('rejection-overlay');
   const rejectionText = document.getElementById('rejection-text');
   const rejectionClose = document.getElementById('rejection-close');
+  const rejectionCounter = document.getElementById('rejection-counter');
   const heartBurst = document.getElementById('heart-burst');
 
   let selectedTiles = new Set();
@@ -104,10 +105,18 @@
         el.classList.add('valentine-hint');
       }
 
-      // Placeholder image
-      const placeholder = document.createElement('div');
-      placeholder.className = 'placeholder-img ' + tile.type;
-      placeholder.textContent = tile.emoji;
+      // Image or Emoji placeholder
+      if (tile.imgSrc) {
+        const img = document.createElement('img');
+        img.src = tile.imgSrc;
+        img.alt = 'Captcha Tile';
+        el.appendChild(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'placeholder-img ' + tile.type;
+        placeholder.textContent = tile.emoji;
+        el.appendChild(placeholder);
+      }
 
       // Overlay + check
       const overlay = document.createElement('div');
@@ -118,7 +127,6 @@
       check.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
       overlay.appendChild(check);
-      el.appendChild(placeholder);
       el.appendChild(overlay);
 
       el.addEventListener('click', function () {
@@ -174,17 +182,18 @@
         subtitle: 'McDreamy 🏥',
         type: 'wrong',
         emoji: '👨‍⚕️',
-        imgSrc: null,
+        imgSrc: 'images/Shepard.jpg',
       },
       {
-        id: 'placeholder',
-        name: 'Dein wahrer Valentine',
-        subtitle: '💖 ???',
+        id: 'valentine',
+        name: 'Mario 💖',
+        subtitle: 'Nur für dich!',
         type: 'correct',
         emoji: '🧑',
-        imgSrc: null,
+        imgSrc: 'images/Schick.jpg',
       },
     ];
+
 
     // Shuffle the order so it's not always the same
     const shuffled = shuffle([...candidates]);
@@ -232,8 +241,24 @@
     // Show rejection overlay with rotating messages
     const msg = REJECTION_MESSAGES[rejectionIndex % REJECTION_MESSAGES.length];
     rejectionIndex++;
+
+    // Update counter
+    const remaining = Math.max(0, REJECTION_MESSAGES.length - rejectionIndex);
+    rejectionCounter.textContent = `Noch ${remaining} Versuche übrig`;
+
     rejectionText.textContent = msg;
     rejectionOverlay.classList.add('active');
+
+    // If we've shown all messages, hide the card after the overlay closes
+    if (rejectionIndex >= REJECTION_MESSAGES.length) {
+      rejectionClose.addEventListener('click', function hideCard() {
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+        card.style.transform = 'scale(0.8)';
+        // Remove the event listener so it doesn't fire again
+        rejectionClose.removeEventListener('click', hideCard);
+      }, { once: true });
+    }
   }
 
   rejectionClose.addEventListener('click', function () {
