@@ -1,0 +1,962 @@
+/* ==========================================
+   Valentine's reCAPTCHA — Style
+   ========================================== */
+
+:root {
+    --pink-100: #fff0f6;
+    --pink-200: #fcc2d7;
+    --pink-300: #faa2c1;
+    --pink-400: #f06595;
+    --pink-500: #e84393;
+    --pink-600: #d6336c;
+    --pink-700: #c2255c;
+    --red-500: #e03131;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f5;
+    --gray-200: #e9ecef;
+    --gray-400: #ced4da;
+    --gray-600: #868e96;
+    --gray-700: #495057;
+    --gray-900: #212529;
+    --shadow-soft: 0 4px 24px rgba(232, 67, 147, 0.18);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(232, 67, 147, 0.10);
+    --radius: 8px;
+    --radius-lg: 14px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #f06292 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    padding: 20px;
+}
+
+/* ---- Floating Hearts Background ---- */
+.hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp linear infinite;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.7;
+    }
+
+    90% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-10vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ---- Captcha Wrapper ---- */
+.captcha-wrapper {
+    position: relative;
+    z-index: 10;
+    filter: drop-shadow(0 8px 32px rgba(232, 67, 147, 0.25));
+}
+
+/* ---- Intro Text (Step 1) ---- */
+.intro-text {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--pink-200);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    max-width: 340px;
+    text-align: center;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.intro-text p {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.intro-text p:last-child {
+    margin-bottom: 0;
+}
+
+.intro-wink {
+    font-family: 'Dancing Script', cursive;
+    font-size: 20px !important;
+    color: var(--pink-500) !important;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---- Step 1: Checkbox ---- */
+.captcha-checkbox-container {
+    background: var(--white);
+    border: 2px solid var(--pink-200);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    width: 340px;
+    box-shadow: var(--shadow-card);
+    animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+
+    0%,
+    100% {
+        box-shadow: var(--shadow-card);
+    }
+
+    50% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 6px 24px rgba(232, 67, 147, 0.20);
+    }
+}
+
+.captcha-checkbox-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkbox-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-box {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--gray-400);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    background: var(--white);
+}
+
+.checkbox-box:hover {
+    border-color: var(--pink-400);
+    box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.12);
+}
+
+.checkbox-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid var(--pink-200);
+    border-top-color: var(--pink-500);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.checkbox-spinner.active {
+    display: block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.checkbox-check {
+    width: 22px;
+    height: 22px;
+    display: none;
+}
+
+.checkbox-check.active {
+    display: block;
+    animation: checkPop 0.3s ease-out;
+}
+
+@keyframes checkPop {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.checkbox-label {
+    font-size: 14px;
+    color: var(--gray-700);
+    font-weight: 500;
+}
+
+.recaptcha-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.recaptcha-logo svg {
+    display: block;
+}
+
+.recaptcha-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 9px;
+    color: var(--gray-600);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.recaptcha-terms {
+    font-size: 7px;
+    font-weight: 400;
+    color: var(--gray-400);
+}
+
+/* ---- Step 2: Challenge Grid ---- */
+.captcha-challenge-container {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    width: 340px;
+    box-shadow: 0 8px 40px rgba(232, 67, 147, 0.22);
+    animation: slideUp 0.5s cubic-bezier(.22, .68, 0, 1.2);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.captcha-header {
+    background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+    color: var(--white);
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.captcha-header::before {
+    content: '💕';
+    position: absolute;
+    top: -8px;
+    right: 60px;
+    font-size: 40px;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+}
+
+.captcha-header-text {
+    flex: 1;
+}
+
+.captcha-instruction {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.captcha-instruction strong {
+    font-weight: 700;
+}
+
+.captcha-sub-instruction {
+    font-size: 11px;
+    opacity: 0.85;
+    font-weight: 400;
+}
+
+.captcha-header-icon {
+    font-size: 32px;
+    animation: heartBeat 1.2s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.15);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.1);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+}
+
+/* Image Grid */
+.captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    padding: 3px;
+    background: var(--gray-200);
+}
+
+.captcha-tile {
+    position: relative;
+    aspect-ratio: 1;
+    cursor: pointer;
+    overflow: hidden;
+    background: var(--pink-100);
+    transition: transform 0.2s ease;
+}
+
+.captcha-tile:hover {
+    z-index: 2;
+}
+
+.captcha-tile:active {
+    transform: scale(0.95);
+}
+
+.captcha-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.captcha-tile:hover img {
+    transform: scale(1.05);
+}
+
+.captcha-tile .tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(232, 67, 147, 0);
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.captcha-tile.selected .tile-overlay {
+    background: rgba(232, 67, 147, 0.35);
+}
+
+.captcha-tile .tile-check {
+    width: 28px;
+    height: 28px;
+    background: var(--pink-500);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s cubic-bezier(.22, .68, 0, 1.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.captcha-tile.selected .tile-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.captcha-tile .tile-check svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Placeholder styling */
+.placeholder-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    background: linear-gradient(135deg, var(--pink-100), var(--pink-200));
+}
+
+/* Valentine tiles: subtle pink/red border glow */
+.captcha-tile.valentine-hint {
+    box-shadow: inset 0 0 0 3px rgba(232, 67, 147, 0.45);
+}
+
+.placeholder-img.valentine {
+    background: linear-gradient(135deg, #ffe0ec, #ffb3d9);
+}
+
+.placeholder-img.other {
+    background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+}
+
+/* Footer */
+.captcha-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 16px;
+    border-top: 1px solid var(--gray-200);
+    background: var(--gray-50);
+}
+
+.captcha-verify-btn {
+    background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+    color: var(--white);
+    border: none;
+    padding: 10px 28px;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(232, 67, 147, 0.3);
+}
+
+.captcha-verify-btn:hover {
+    background: linear-gradient(135deg, var(--pink-600), var(--pink-700));
+    box-shadow: 0 4px 16px rgba(232, 67, 147, 0.4);
+    transform: translateY(-1px);
+}
+
+.captcha-verify-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(232, 67, 147, 0.25);
+}
+
+/* Shake animation for wrong answer */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    15% {
+        transform: translateX(-8px);
+    }
+
+    30% {
+        transform: translateX(8px);
+    }
+
+    45% {
+        transform: translateX(-6px);
+    }
+
+    60% {
+        transform: translateX(6px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    90% {
+        transform: translateX(3px);
+    }
+}
+
+.shake {
+    animation: shake 0.6s ease-in-out;
+}
+
+/* ---- Step 3: Choose your Valentine ---- */
+.choose-valentine-container {
+    background: var(--white);
+    border: 2px solid var(--pink-200);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    width: 420px;
+    box-shadow: 0 8px 40px rgba(232, 67, 147, 0.25);
+    animation: slideUp 0.5s cubic-bezier(.22, .68, 0, 1.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.choose-header {
+    background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+    color: var(--white);
+    padding: 24px 24px 20px;
+    text-align: center;
+}
+
+.choose-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.choose-subtitle {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.choose-grid {
+    display: flex;
+    gap: 16px;
+    padding: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.choose-card {
+    width: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid var(--gray-200);
+    background: var(--white);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.choose-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 30px rgba(232, 67, 147, 0.25);
+    border-color: var(--pink-400);
+}
+
+.choose-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.choose-card-placeholder {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    background: linear-gradient(135deg, #ffe0ec, #ffb3d9);
+}
+
+.choose-card-label {
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+/* Wiggle for wrong choice hover/click */
+@keyframes wiggleWarn {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(-3deg);
+    }
+
+    40% {
+        transform: rotate(3deg);
+    }
+
+    60% {
+        transform: rotate(-2deg);
+    }
+
+    80% {
+        transform: rotate(2deg);
+    }
+}
+
+.choose-card.wiggle {
+    animation: wiggleWarn 0.5s ease-in-out;
+    border-color: #ff6b6b !important;
+}
+
+/* Rejection overlay */
+.rejection-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.rejection-overlay.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.rejection-content {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    text-align: center;
+    max-width: 300px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    animation: bounceIn 0.5s cubic-bezier(.22, .68, 0, 1.2);
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.rejection-emoji {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: headShake 1s ease-in-out;
+}
+
+@keyframes headShake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0);
+    }
+
+    15% {
+        transform: translateX(-6px) rotate(-5deg);
+    }
+
+    30% {
+        transform: translateX(5px) rotate(3deg);
+    }
+
+    45% {
+        transform: translateX(-4px) rotate(-3deg);
+    }
+
+    60% {
+        transform: translateX(3px) rotate(2deg);
+    }
+
+    75% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+}
+
+.rejection-text {
+    font-size: 15px;
+    color: var(--gray-700);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.rejection-close-btn {
+    background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(232, 67, 147, 0.3);
+}
+
+.rejection-close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(232, 67, 147, 0.4);
+}
+
+/* ---- Step 4: Final Success ---- */
+.final-success-container {
+    background: var(--white);
+    border: 2px solid var(--pink-200);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(232, 67, 147, 0.25);
+    animation: successPop 0.6s cubic-bezier(.22, .68, 0, 1.2);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes successPop {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.success-content {
+    position: relative;
+    z-index: 2;
+}
+
+.success-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    color: var(--pink-600);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.success-message {
+    font-size: 16px;
+    color: var(--gray-700);
+    margin-bottom: 20px;
+}
+
+.success-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 28px;
+}
+
+.success-hearts span {
+    animation: floatHeart 2s ease-in-out infinite;
+}
+
+.success-hearts span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.success-hearts span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.success-hearts span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.success-hearts span:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.success-hearts span:nth-child(5) {
+    animation-delay: 0.8s;
+}
+
+@keyframes floatHeart {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+/* Heart burst particles */
+.success-heart-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.burst-heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    animation: burstOut 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes burstOut {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--bx), var(--by)) scale(1.5) rotate(var(--br));
+        opacity: 0;
+    }
+}
+
+/* Confetti */
+.confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    z-index: 100;
+    animation: confettiFall linear forwards;
+    opacity: 0.9;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Firework particles */
+.firework {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    z-index: 100;
+    animation: fireworkBurst 1.2s ease-out forwards;
+}
+
+@keyframes fireworkBurst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--fx), var(--fy)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 460px) {
+    .captcha-challenge-container {
+        width: 300px;
+    }
+
+    .captcha-checkbox-container {
+        width: 300px;
+        padding: 16px 18px;
+    }
+
+    .choose-valentine-container {
+        width: 320px;
+    }
+
+    .choose-card {
+        width: 130px;
+    }
+
+    .choose-card-placeholder,
+    .choose-card-img {
+        height: 140px;
+    }
+
+    .final-success-container {
+        width: 310px;
+        padding: 30px 20px;
+    }
+
+    .success-title {
+        font-size: 24px;
+    }
+
+    .intro-text {
+        max-width: 300px;
+    }
+}
